@@ -1,0 +1,182 @@
+openapi: "3.0.2"
+info:
+  title: Sample To-do List App
+  description: This is a sample server for a to-do list
+  version: "1.0"
+
+servers:
+  - url: https://api.server.test/v1
+    description: Development server
+  - url: https://api.server.test/v1
+    description: Staging server
+  - url: https://api.server.prod/v1
+    description: Production server
+
+tags:
+  - name: task
+    description: Tasks operations
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          type: string
+          maxLength: 25
+    UnexpectedError:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            description:
+              type: string
+              example: unexpected_error
+    BadRequestError:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            data:
+              type: object
+
+paths:
+  /v1/task:
+    get:
+      tags:
+        - task
+      summary: Return all tasks.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Task"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnexpectedError"
+    post:
+      tags:
+        - task
+      summary: Add a task.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "remember the milk"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: object
+                    $ref: "#/components/schemas/Task"
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestError"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnexpectedError"
+  /v1/task/{id}:
+    get:
+      tags:
+        - task
+      summary: Details a task
+      responses:
+        200:
+          description: Ok.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Task"
+        412:
+          description: Precondition Failed.
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnexpectedError"
+    put:
+      tags:
+        - task
+      summary: Update a task.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "remember the milk and sugar"
+      responses:
+        204:
+          description: No Content.
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestError"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnexpectedError"
+    delete:
+      tags:
+        - task
+      summary: Remove a task
+      responses:
+        204:
+          description: No Content.
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnexpectedError"
+  /v1/task/{id}/done:
+    patch:
+      tags:
+        - task
+      summary: Complete a task
+      responses:
+        204:
+          description: Done.
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnexpectedError"
