@@ -5,7 +5,7 @@ import { Result } from '../shared/result';
 export interface ITaskProps {
   id?: UniqueEntityID;
   name: string;
-  done: boolean;
+  done?: boolean;
 }
 
 export class Task extends Entity<ITaskProps> {
@@ -18,6 +18,10 @@ export class Task extends Entity<ITaskProps> {
 
     if (errors.length > 0) {
       return Result.fail<Task>(errors);
+    }
+
+    if (!props.done) {
+      props.done = false;
     }
 
     return Result.success<Task>(new Task(props, id));
