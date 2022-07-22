@@ -1,21 +1,25 @@
 import { Module } from '@nestjs/common';
-import { TasksController } from './infra/controllers/tasks.controller';
-import CreateTaskInteractor from 'src/use-cases/tasks/create-task/create-task.interactor';
-import CreateTaskImpl from './adapters/gateway/tasks/create-task/create-task.impl';
-import { MemoryTaskMapper } from './infra/mappers/memory-task.mapper';
+import { Tasks } from '@useCases';
+import { Gateways } from '@adapters';
+import { Controller, Mapper } from '@infra';
 
 @Module({
   imports: [],
-  controllers: [TasksController],
+  controllers: [Controller.TasksController],
   providers: [
-    CreateTaskInteractor,
+    Tasks.CreateTask.CreateTaskInteractor,
+    Tasks.FindAllTasks.FindAllTasksInteractor,
     {
       provide: 'CreateTaskGateway',
-      useClass: CreateTaskImpl,
+      useClass: Gateways.CreateTaskImpl,
+    },
+    {
+      provide: 'FindAllTasksGateway',
+      useClass: Gateways.FindAllTaskImpl,
     },
     {
       provide: 'MemoryTaskMapper',
-      useClass: MemoryTaskMapper,
+      useClass: Mapper.MemoryTaskMapper,
     },
   ],
 })

@@ -16,7 +16,8 @@
       "@adapters": ["src/adapters"],
       "@entities": ["src/entities/index"],
       "@useCases": ["src/use-cases"],
-      "@shared": ["src/shared"]
+      "@shared": ["src/shared"],
+      "@infra": ["src/infra/index"]
     }
   }
 }

@@ -95,6 +95,9 @@
       ],
       "@shared": [
         "<rootDir>/../src/shared"
+      ],
+      "@infra": [
+        "<rootDir>/../src/infra"
       ]
     }
   }

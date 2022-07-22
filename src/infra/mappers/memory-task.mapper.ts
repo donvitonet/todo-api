@@ -17,6 +17,10 @@ export class MemoryTaskMapper implements IDataMapper {
     return this.toDomain(this.tasks.find((t) => t.id === generatedId));
   }
 
+  async findAll(): Promise<Task[]> {
+    return this.tasks.map((t) => this.toDomain(t));
+  }
+
   _generateNextId() {
     return this.tasks.length + 1;
   }

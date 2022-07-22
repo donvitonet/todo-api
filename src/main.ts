@@ -2,12 +2,12 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-import { UniqueEntityIDGeneratorFactory } from './entities/id-generator-factory';
-import UUIDEntityGenerator from './infra/plugins/uuid-id-generator';
+import { UniqueEntityIDGeneratorFactory } from '@entities';
+import { Plugin } from '@infra';
 
 function initIdFactories() {
   const factories = {
-    default: new UUIDEntityGenerator(),
+    default: new Plugin.UUIDUniqueEntityIDGenerator(),
   };
   UniqueEntityIDGeneratorFactory.getInstance().initialize(factories);
 }
