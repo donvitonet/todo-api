@@ -30,6 +30,11 @@ export class MemoryTaskMapper implements Common.IDataMapper {
     return null;
   }
 
+  async update(e: Task): Promise<void> {
+    this.tasks = this.tasks.filter((t) => t.id !== Number(e.id.toValue()));
+    this.tasks.push(this.toPersist(e));
+  }
+
   _generateNextId() {
     return this.tasks.length + 1;
   }

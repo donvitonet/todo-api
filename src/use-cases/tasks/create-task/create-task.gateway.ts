@@ -1,6 +1,6 @@
 import { Task } from '@entities';
-import { CreateTaskRequestDTO } from 'src/infra/validation/create-task-request.dto';
+import { Validation } from '@infra';
 
 export interface CreateTaskGateway {
-  createTask(task: CreateTaskRequestDTO): Promise<Task>;
+  createTask(task: Validation.CreateTaskRequestDTO): Promise<Task>;
 }

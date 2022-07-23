@@ -10,6 +10,7 @@ import { Controller, Mapper } from '@infra';
     Tasks.CreateTask.CreateTaskInteractor,
     Tasks.FindAllTasks.FindAllTasksInteractor,
     Tasks.FindOneTask.FindOneTaskInteractor,
+    Tasks.UpdateTask.UpdateTaskInteractor,
     {
       provide: 'CreateTaskGateway',
       useClass: Gateways.CreateTaskImpl,
@@ -21,6 +22,10 @@ import { Controller, Mapper } from '@infra';
     {
       provide: 'FindOneTaskGateway',
       useClass: Gateways.FindOneTaskImpl,
+    },
+    {
+      provide: 'UpdateTaskGateway',
+      useClass: Gateways.UpdateTaskImpl,
     },
     {
       provide: 'MemoryTaskMapper',
