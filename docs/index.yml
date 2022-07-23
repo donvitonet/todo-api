@@ -27,6 +27,9 @@ components:
         name:
           type: string
           maxLength: 25
+        done:
+          type: boolean
+          example: false
     InternalServerError:
       type: object
       properties:
@@ -50,6 +53,15 @@ components:
         error:
           type: string
           example: 'Bad Request'
+    NotFoundError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: 'Not Found'
 
 paths:
   /v1/task:
@@ -121,10 +133,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                $ref: '#/components/schemas/Task'
-        412:
-          description: Precondition Failed.
+                properties:
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/Task'
+        404:
+          description: Not found task.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
         500:
           description: Internal Server Error
           content:
@@ -172,6 +190,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+    parameters:
+      - name: id
+        in: path
+        description: ID of task to use
+        required: true
+        schema:
+          type: integer
+        style: simple
+        example: 1
   /v1/task/{id}/done:
     patch:
       tags:

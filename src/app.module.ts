@@ -9,13 +9,18 @@ import { Controller, Mapper } from '@infra';
   providers: [
     Tasks.CreateTask.CreateTaskInteractor,
     Tasks.FindAllTasks.FindAllTasksInteractor,
+    Tasks.FindOneTask.FindOneTaskInteractor,
     {
       provide: 'CreateTaskGateway',
       useClass: Gateways.CreateTaskImpl,
     },
     {
       provide: 'FindAllTasksGateway',
-      useClass: Gateways.FindAllTaskImpl,
+      useClass: Gateways.FindAllTasksImpl,
+    },
+    {
+      provide: 'FindOneTaskGateway',
+      useClass: Gateways.FindOneTaskImpl,
     },
     {
       provide: 'MemoryTaskMapper',

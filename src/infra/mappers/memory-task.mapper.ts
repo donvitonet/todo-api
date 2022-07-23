@@ -1,5 +1,5 @@
 import { Task, UniqueEntityID } from '@entities';
-import { IDataMapper } from 'src/adapters/common/mappers';
+import { Common } from '@adapters';
 
 interface TaskModel {
   id: number;
@@ -7,7 +7,7 @@ interface TaskModel {
   done: boolean;
 }
 
-export class MemoryTaskMapper implements IDataMapper {
+export class MemoryTaskMapper implements Common.IDataMapper {
   private tasks: TaskModel[] = [];
 
   async insert(e: Task): Promise<Task> {
@@ -19,6 +19,15 @@ export class MemoryTaskMapper implements IDataMapper {
 
   async findAll(): Promise<Task[]> {
     return this.tasks.map((t) => this.toDomain(t));
+  }
+
+  async findOneById(id: number): Promise<Task> {
+    const task = this.tasks.find((t) => t.id === Number(id));
+    if (task) {
+      return this.toDomain(task);
+    }
+
+    return null;
   }
 
   _generateNextId() {
