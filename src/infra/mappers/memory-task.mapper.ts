@@ -1,4 +1,4 @@
-import { Task, UniqueEntityID } from '@entities';
+import { Entity, Task, UniqueEntityID } from '@entities';
 import { Common } from '@adapters';
 
 interface TaskModel {
@@ -33,6 +33,10 @@ export class MemoryTaskMapper implements Common.IDataMapper {
   async update(e: Task): Promise<void> {
     this.tasks = this.tasks.filter((t) => t.id !== Number(e.id.toValue()));
     this.tasks.push(this.toPersist(e));
+  }
+
+  async delete(e: Entity<unknown>): Promise<void> {
+    this.tasks = this.tasks.filter((t) => t.id !== Number(e.id.toValue()));
   }
 
   _generateNextId() {

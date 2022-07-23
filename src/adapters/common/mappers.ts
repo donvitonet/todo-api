@@ -5,4 +5,5 @@ export interface IDataMapper {
   findAll(): Promise<Entity<unknown>[]>;
   findOneById(id: number): Promise<Entity<unknown>>;
   update(e: Entity<unknown>): Promise<void>;
+  delete(e: Entity<unknown>): Promise<void>;
 }
