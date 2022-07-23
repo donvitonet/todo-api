@@ -213,3 +213,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+    parameters:
+      - name: id
+        in: path
+        description: ID of task to use
+        required: true
+        schema:
+          type: integer
+        style: simple
+        example: 1

@@ -7,11 +7,16 @@ import { Controller, Mapper } from '@infra';
   imports: [],
   controllers: [Controller.TasksController],
   providers: [
+    Tasks.CompleteTask.CompleteTaskInteractor,
     Tasks.CreateTask.CreateTaskInteractor,
     Tasks.FindAllTasks.FindAllTasksInteractor,
     Tasks.FindOneTask.FindOneTaskInteractor,
     Tasks.UpdateTask.UpdateTaskInteractor,
     Tasks.DeleteTask.DeleteTaskInteractor,
+    {
+      provide: 'CompleteTaskGateway',
+      useClass: Gateways.CompleteTaskImpl,
+    },
     {
       provide: 'CreateTaskGateway',
       useClass: Gateways.CreateTaskImpl,

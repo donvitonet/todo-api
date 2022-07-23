@@ -1,3 +1,4 @@
+export * from './complete-task.impl';
 export * from './create-task.impl';
 export * from './delete-task.impl';
 export * from './find-all-tasks.impl';

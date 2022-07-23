@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Put,
   Version,
@@ -19,11 +20,12 @@ import { CreateTaskRequestDTO, UpdateTaskRequestDTO } from '../validation';
 @Controller('task')
 export class TasksController {
   constructor(
+    private _completeTaskInteractor: Tasks.CompleteTask.CompleteTaskInteractor,
     private _createTaskInteractor: Tasks.CreateTask.CreateTaskInteractor,
+    private _deleteInteractor: Tasks.DeleteTask.DeleteTaskInteractor,
     private _findAllTasksInteractor: Tasks.FindAllTasks.FindAllTasksInteractor,
     private _findOneInteractor: Tasks.FindOneTask.FindOneTaskInteractor,
     private _updateInteractor: Tasks.UpdateTask.UpdateTaskInteractor,
-    private _deleteInteractor: Tasks.DeleteTask.DeleteTaskInteractor,
   ) {}
 
   @Version('1')
@@ -86,6 +88,15 @@ export class TasksController {
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
     await this._deleteInteractor.execute({
+      id,
+    });
+  }
+
+  @Version('1')
+  @HttpCode(204)
+  @Patch('/:id/done')
+  async done(@Param('id') id: number): Promise<void> {
+    await this._completeTaskInteractor.execute({
       id,
     });
   }
